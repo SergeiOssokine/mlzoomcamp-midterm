@@ -16,5 +16,11 @@ dependencies = [
     "pingouin>=0.5.5",
     "rpy2>=3.6.4",
     "seaborn>=0.13.2",
+    "typer>=0.20.0",
     "xgboost>=3.1.1",
+]
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.4.0",
 ]
