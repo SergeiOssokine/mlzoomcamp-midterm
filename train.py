@@ -15,6 +15,9 @@ logger = logging.getLogger(__name__)
 logger.addHandler(RichHandler(rich_tracebacks=True, markup=True))
 logger.setLevel("INFO")
 
+random_state = 27
+np.random.seed(seed=random_state)
+
 
 def load_data(filename: str) -> pd.DataFrame:
     """Load the seeds data
@@ -38,10 +41,6 @@ def load_data(filename: str) -> pd.DataFrame:
     ]
     df = pd.DataFrame(raw_data, columns=cols)
     return df
-
-
-random_state = 27
-np.random.seed(seed=random_state)
 
 
 def split_data(
@@ -99,7 +98,7 @@ def train_model(df_train: pd.DataFrame, y_train: np.ndarray):
     return clf
 
 
-def test_model(fitted_model, df_test: pd.DataFrame, y_test: np.ndarray):
+def test_model(fitted_model, df_test: pd.DataFrame, y_test: np.ndarray) -> None:
     logger.info("Assessing model performance on the test set")
     y_pred = fitted_model.predict(df_test)
     print(classification_report(y_test, y_pred))
