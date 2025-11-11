@@ -25,6 +25,8 @@ shutdown_prediction_service: ## Stop the prediction service docker container
 remove_prediction_container: ## Remove the prediction service container
 	docker container rm ${IMG_NAME}
 
+cleanup_venv: ## Remove the Python virtual environment created with setup_env
+	rm -rf ./.venv
 help:
 	@echo "Possible actions:"
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
