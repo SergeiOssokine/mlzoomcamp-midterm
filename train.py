@@ -74,7 +74,7 @@ def split_data(
     return df_train, df_test, y_train, y_test
 
 
-def prepare_data(df: pd.DataFrame, test_frac: float = 0.2) -> list[np.ndarray]:
+def prepare_data(df: pd.DataFrame, test_frac: float = 0.2):
     # Variety is a numerical label, make sure it's int, not float. Also make labels be 0-based
     df["variety"] = df["variety"].astype(int) - 1
     test_frac = 0.2
@@ -86,23 +86,22 @@ def prepare_data(df: pd.DataFrame, test_frac: float = 0.2) -> list[np.ndarray]:
     df_train, df_test, y_train, y_test = split_data(
         df, random_state=random_state, test_frac=test_frac
     )
-    X_train = df_train.values
-    X_test = df_test.values
+
     logger.info(
-        f"Done. Train test has {len(X_train)} samples, test set has {len(X_test)} samples"
+        f"Done. Train test has {len(df_train)} samples, test set has {len(df_test)} samples"
     )
-    return X_train, X_test, y_train, y_test
+    return df_train, df_test, y_train, y_test
 
 
-def train_model(X_train: np.ndarray, y_train: np.ndarray):
+def train_model(df_train: pd.DataFrame, y_train: np.ndarray):
     clf = LinearDiscriminantAnalysis()
-    clf.fit(X_train, y_train)
+    clf.fit(df_train, y_train)
     return clf
 
 
-def test_model(fitted_model, X_test: np.ndarray, y_test: np.ndarray):
+def test_model(fitted_model, df_test: pd.DataFrame, y_test: np.ndarray):
     logger.info("Assessing model performance on the test set")
-    y_pred = fitted_model.predict(X_test)
+    y_pred = fitted_model.predict(df_test)
     print(classification_report(y_test, y_pred))
 
 
@@ -114,17 +113,18 @@ def main(
         str, typer.Option(help="File to store model in")
     ] = "seeds_classifier.pkl",
 ):
+    logger.info("[bold]Training production model[/bold]")
     logger.info(f"Loading data from {filename}")
     df = load_data(filename)
     logger.info("Done")
     logger.info("Preparing data")
-    X_train, X_test, y_train, y_test = prepare_data(df)
+    df_train, df_test, y_train, y_test = prepare_data(df)
     # Train the model
     logger.info("Training the Linear Discriminant Analysis model")
-    fitted_model = train_model(X_train, y_train)
+    fitted_model = train_model(df_train, y_train)
     logger.info("Done")
 
-    test_model(fitted_model, X_test, y_test)
+    test_model(fitted_model, df_test, y_test)
 
     # Save the model
     logger.info(f"Saving the fitted model to {output_name}")
