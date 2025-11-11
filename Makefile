@@ -4,6 +4,9 @@
 
 IMG_NAME =  seeds_classifier
 
+get_dataset: ## Download the seed dataset from UCI
+	cd data && bash get_data.sh
+	
 setup_env: ## Set up the local environment by installing the required Python packages
 	bash setup_env.sh
 
@@ -27,6 +30,7 @@ remove_prediction_container: ## Remove the prediction service container
 
 cleanup_venv: ## Remove the Python virtual environment created with setup_env
 	rm -rf ./.venv
+
 help:
 	@echo "Possible actions:"
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
