@@ -32,9 +32,9 @@ To set up the `python` environment and all dependencies run
 make setup_env
 ```
 
-This will install `uv` (if not present) and install all dependecies needed
+This will install `uv` (if not present) and install all dependencies needed
 
-## Exporing the dataset
+## Exploring the dataset
 
 To download the dataset, please run
 
