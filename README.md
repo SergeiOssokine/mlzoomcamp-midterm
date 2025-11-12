@@ -1,4 +1,4 @@
-# MLZoomcamp 2025 midterm project: Classifying what seeds
+# MLZoomcamp 2025 midterm project: Classifying wheat seeds
 
 ## Introduction and problem description
 
@@ -87,7 +87,7 @@ To launch the prediction service run
 make serve_predictions
 ```
 
-To test with a sample payload, run
+You may need to give the service a few seconds to start up. To test with a sample payload, run
 
 ```bash
 make test_prediction_service
